@@ -1,5 +1,5 @@
 import java.util.Scanner;
-//Testing if git workie
+
 public class Box {
 
     private String boxName;
