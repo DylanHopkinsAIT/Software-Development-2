@@ -143,7 +143,7 @@ public class jumbleLetters {
 
     public static void main(String[] args) throws FileNotFoundException {
         //Create instance of file and scanner to read file.
-        File f = new File("C:\\Users\\A00284332\\OneDrive - Athlone Institute Of Technology\\Modules\\Year 2\\Software Development 2\\Labs\\Lab 3\\src");
+        File f = new File("file.txt");
         Scanner sc = new Scanner(f);
         String textFile = sc.nextLine();
 

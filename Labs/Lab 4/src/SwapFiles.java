@@ -1,87 +1,127 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class SwapFiles {
 
     /**
-     * This method takes a string array and prints out every 5th element in the array.
+     * This method takes in a string and processes it, removing all punctuation and symbols.
      *
-     * @param everyFifth String to be converted.
-     */
-    public static void printFifth(String [] everyFifth) {
-
-        //Loop through array, if array index is divisible by 5 evenly, print it.
-        for (int wordCount = 1; wordCount < everyFifth.length; wordCount++) {
-
-            if (wordCount % 5 == 0) {
-                System.out.println(everyFifth[wordCount]);
-            }
-        }
-    }
-
-    /**
-     * Method to remove punctuation chars from a String and converts to all lowercase for processing.
-     *
-     * @param s String to be 'cleaned'
-     * @return 'cleaned' String
+     * @param s string to be processed
+     * @return plaintext string.
      */
     public static String cleanString(String s) {
 
-        return s.replace(",", "").replace("'", "").toLowerCase()
-                .replace(".", "").replace("!", "").replace(": ", "");
+        return s.replaceAll("(^A-Za-z0-9)", "")
+                .replace(",", "")
+                .replace("[", "")
+                .replace("]", "")
+                .replace("]", "")
+                .replace(".", "")
+                .replace("'", "")
+                .replace(";", "")
+                .replace(":", "")
+                .replace("!", "")
+                .toLowerCase();
+    }
+
+    /**
+     * This method reads in from text file and prints out every fifth word.
+     */
+    public static void printFifth() {
+        try {
+            Scanner input = new Scanner(new File("file.txt"));
+            int count = 0;
+
+            //while scanner has an input, increment counter. If counter == 5, print out word and reset counter
+            while (input.hasNext()) {
+                count++;
+                String word = cleanString(input.next());
+
+                if (count == 5) {
+                    System.out.println(word);
+                    count = 0;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error reading file");
+            e.printStackTrace();
+        }
 
     }
 
     /**
-     * Method to create a file array of arbitrary size, containing empty text files in each array index.
-     *
-     * @return File array of desired size
+     * This method takes creates a user specified amount of text files, takes in a string and splits the string evenly
+     * among every created text file.
+     * @param input String to be split among files
+     * @param numFiles number of files to be created
+     * @throws IOException printwriter fails
      */
-        File[] fileArr = new File[a];                   //File array to be returned
+    @SuppressWarnings("MismatchedReadAndWriteOfArray")
+    public static void wordsToFile(String input, int numFiles) throws IOException {
+        String[] inputArr = input.split(" ");
 
-        for (int i = 0; i < a; i++) {
-            try {
-                File createFile = new File("C:\\Users\\A00284332\\OneDrive - Athlone Institute Of Technology\\Modules\\Year 2\\Software Development 2\\Labs\\Lab 4\\src\\file" + i + ".txt");
-                if (createFile.createNewFile()) {
-                    System.out.println("File created: " + createFile.getName());
-                    fileArr[i] = createFile;
-                } else {
-                    System.out.println("File already exists.");
-                }
-            } catch (IOException e) {
-                System.out.println("An error has occurred.");
-                e.printStackTrace();
+        //Create file array, string array and print writer with size from user input
+        File[] fileArr = new File[numFiles];
+        String[] stringArr = new String[numFiles];
+        PrintWriter[] pwArr = new PrintWriter[numFiles];
+
+        //Populate the file arrays with desired number of elements.
+        for (int i = 0; i < fileArr.length; i++) {
+            fileArr[i] = new File("file" + i + ".txt");
+            stringArr[i] = " ";
+            pwArr[i] = new PrintWriter("file" + i + ".txt", "UTF-8");
+        }
+
+        //Populate each element of the string array with even proportion of words.
+        for (int i = 0; i < inputArr.length; i++) {
+            int mod = i % numFiles;
+
+            stringArr[mod] = stringArr[mod] + " " + inputArr[i];
+        }
+
+        //Write the strings to files using printWriter array.
+        for (int i = 0; i < stringArr.length; i++) {
+            pwArr[i].println(stringArr[i]);
+            pwArr[i].close();
+        }
+
+    }
+
+    /**
+     * This method reads a file and concatenates the words in said file into a string.
+     * @param s path of file to be read
+     * @return string of file contents
+     */
+    private static String fileToString(String s) {
+        StringBuilder textString = new StringBuilder();
+
+        //Take all words from file, process them and concatenate them into a string.
+        try {
+            Scanner sc = new Scanner(new File(s));
+            while (sc.hasNext()) {
+                textString.append(" ").append(sc.next());
             }
+        } catch (Exception e) {
+            System.out.println("Could not read file");
+            e.printStackTrace();
         }
-        return fileArr;
+        textString = new StringBuilder(cleanString(textString.toString()));
+        return String.valueOf(textString);
     }
 
-    public static void oneFifth(File[] f, String [] s){
-        for (int i = 0; i < s.length; i++){
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter file path and name, including file extension: (default is file.txt)");
+        String textString = fileToString(sc.nextLine());
 
+        //Lab 4.1 Print every fifth word of file into console
+        printFifth();
 
-        }
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        File textFile = new File("\\file.txt");
-        Scanner readFile = new Scanner(textFile);
-        String [] inputString = cleanString(readFile.nextLine()).split(" ");
-
-        //Lab 4.1 - Read in text file and print out every 5th word.
-        //printFifth(inputString);
-
-        //Lab 4.2 - Create an array of 5 files, put one fifth of the words from the text file in each file.
-        File [] fileArray = createFileArr(5);
-        oneFifth(fileArray,inputString);
-
-
-
-
-
-
+        // Lab 4.2 create an array of 5 files and put 1/5th of the words in each file.
+        System.out.println("How many files would you like to create :");
+        wordsToFile(textString, sc.nextInt());
 
     }
+
+
 }
