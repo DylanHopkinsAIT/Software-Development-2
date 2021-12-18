@@ -130,7 +130,6 @@ public class Sorting {
         a[j] = temp;
     }
 
-
     public static void main(String[] args) {
         Scanner fileIn = new Scanner(System.in);
         System.out.println("Please enter file path and name, including file extension: (default is file.txt)");
