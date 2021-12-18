@@ -46,6 +46,10 @@ public class Sorting {
         return String.valueOf(textString);
     }
 
+    /**
+     * This method sorts an int[] from values high to low.
+     * @param input int[] to sort.
+     */
     public static void sort(int [] input)
     {
         for(int i = 0; i < input.length - 1; i++)
@@ -71,6 +75,10 @@ public class Sorting {
         }
     }
 
+    /**
+     * This method sorts String[] Lexicographically, from greatest value to lowest ( Z --> A)
+     * @param inputArr String[] to be sorted.
+     */
     public static void sort(String [] inputArr)
     {
         for(int i = 0; i < inputArr.length - 1; i++)
@@ -95,6 +103,13 @@ public class Sorting {
             System.out.println(i);
         }
     }
+
+    /**
+     * This method swaps the position of strings in a String[]
+     * @param a String[] containing elements.
+     * @param i Index of first string to be swapped.
+     * @param j Index of second string to be swapped.
+     */
     public static void swap(String [] a, int i, int j)
     {
         String temp = a[i];
@@ -102,6 +117,12 @@ public class Sorting {
         a[j] = temp;
     }
 
+    /**
+     * This method swaps the position of ints in a String[]
+     * @param a Int[] containing elements.
+     * @param i Index of first int to be swapped
+     * @param j Index of second int to be swapped
+     */
     public static void swap(int [] a, int i, int j)
     {
         int temp = a[i];
@@ -118,9 +139,6 @@ public class Sorting {
         //Lab 5.1 Sort words.
         String [] stringArr = textString.split(" ");
         sort(stringArr);
-
-
-
-
     }
+
 }
