@@ -1,129 +1,76 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.PrintWriter;
 
-public class CurrencyConverterGUI extends JFrame implements ActionListener, WindowListener {
+public class CurrencyConverterGUI {
 
+    //Initialize these variables in the scope of the other methods
+    private JFrame frame;
+    private JPanel panel;
+    private JLabel initialValueLabel;
+    private JTextField initialValueField;
+    private JLabel fromCurrencyLabel;
+    private JComboBox fromCurrencyList;
+    private JLabel toCurrencyLabel;
+    private JComboBox toCurrencyList;
+    private JTextArea finalValue;
+    private JButton clearFields;
+    private JButton calculateConversion;
 
-    private Container contentPane = this.getContentPane();
+    public CurrencyConverterGUI(){
+        String[] currencies = new String[]{"US Dollars (USD)", "Pounds Sterling (GBP)", "Euro (EUR)","Chinese Yuan (RMB)"};
 
-    private JLabel usdLabel = new JLabel("$ US Dollar:"), eurLabel = new JLabel("€ Euro:");
+        frame = new JFrame();   //new frame
+        panel = new JPanel();   //new panel
+        initialValueLabel = new JLabel("Amount to convert: ");   //initial value label
+        initialValueField = new JTextField();   //initial value text field
+        fromCurrencyLabel = new JLabel("Convert From: ");   //from currency label
+        fromCurrencyList = new JComboBox(currencies); //select currency drop down
+        toCurrencyLabel = new JLabel("Convert To: ");   //to currency label
+        toCurrencyList = new JComboBox(currencies);   //select currency drop down
+        finalValue = new JTextArea(""); //text area to contain final converted value
+        clearFields = new JButton("Clear"); //button to clear all fields
+        calculateConversion = new JButton("Calculate");//button to calculate conversion
 
-    private JTextField usdArea = new JTextField(10), eurArea = new JTextField(10);
+        //Initial frame and panel setup
+        frame.setSize(800,600); //Set default size (pixel values)
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //What to do when user closes panel
+        frame.add(panel);
+        frame.setVisible(true); //Make panel visible
+        frame.setTitle("Currency Conversion");
+        panel.setLayout(null);  //No value for now
 
-    private double usdValue, eurValue;
+        //Initial value box
+        initialValueLabel.setBounds(335,20,150,25);
+        initialValueField.setBounds(315,40,150,25);
+        panel.add(initialValueLabel);
+        panel.add(initialValueField);
 
-    public void CurrencyConvert()
-    {
-        this.setSize(400,300);
-        this.setResizable(true);
+        //From currency dropdown
+        fromCurrencyLabel.setBounds(115, 100,100,25);
+        fromCurrencyList.setBounds(250,100,300,25);
+        panel.add(fromCurrencyLabel);
+        panel.add(fromCurrencyList);
 
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        //To currency dropdown
+        toCurrencyLabel.setBounds(115, 160,100,25);
+        toCurrencyList.setBounds(250,160,300,25);
+        panel.add(toCurrencyLabel);
+        panel.add(toCurrencyList);
 
-        this.addWindowListener(this);
+        //Clear & calculate fields buttons
+        clearFields.setBounds(250, 220, 100,25);
+        calculateConversion.setBounds(450, 220, 100,25);
+        panel.add(clearFields);
+        panel.add(calculateConversion);
 
-        this.setTitle("Currency Converter");
-    }
-
-    public void init()
-    {
-
-        contentPane.setLayout(new GridBagLayout());
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        gbc.insets = new Insets(0,1,0,1);
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-
-        contentPane.add(usdLabel, gbc);
-
-        gbc.gridx = 2;
-
-        contentPane.add(eurLabel, gbc);
-
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-
-        contentPane.add(usdArea, gbc);
-
-        gbc.gridx = 2;
-
-        contentPane.add(eurArea, gbc);
-
-        usdArea.addActionListener(this);
-
-        eurArea.addActionListener(this);
-
-        this.setVisible(true);
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        CurrencyConverter cc = new CurrencyConverter();
-
-        if(e.getSource() == usdArea)
-        {
-            usdValue = Double.parseDouble(usdArea.getText());
-            eurValue = cc.usdToEuro(usdValue);
-        }
-        else{
-            eurValue = Double.parseDouble(eurArea.getText());
-            usdValue = cc.euroToUSD(eurValue);
-        }
-
-        usdArea.setText(""+usdValue);
-        eurArea.setText(""+eurValue);
-
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-        System.out.println("Window starts");
-    }
-
-    @Override
-    public void windowClosing(WindowEvent windowEvent) {
-
-    }
-
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
+        //Final value text box
+        finalValue.setBounds(250, 320,300, 100);
+        panel.add(finalValue);
 
     }
 
     public static void main(String[] args) {
-        new CurrencyConverterGUI().init();
+        new CurrencyConverterGUI();
     }
+
 }
+

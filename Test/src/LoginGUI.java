@@ -1,17 +1,27 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class LoginGUI {
+public class LoginGUI implements ActionListener {
+
+    //Create these variables so that they are in the scope of the actionPerformed method
+    private static JLabel userLabel;
+    private static JTextField userText;
+    private static JLabel passLabel;
+    private static JPasswordField passText;
+    private static JButton button;
+    private static JLabel success;
 
     public static void main(String[] args) {
 
         JFrame frame = new JFrame();    //Create new frame
         JPanel panel = new JPanel();    //Create new panel
-        JLabel userLabel = new JLabel("Username: ");    //Create new username label
-        JTextField userText = new JTextField(20);   //Create new username text field (and set length)
-        JLabel passLabel = new JLabel("Password: ");    //Create new password label
-        JPasswordField passText = new JPasswordField(20);   //Create new password field (and set length)
-        JButton button = new JButton("Login");  //Create login button
-        JLabel success = new JLabel("");    //Create successful login label
+        userLabel = new JLabel("Username: ");    //Create new username label
+        userText = new JTextField(20);   //Create new username text field (and set length)
+        passLabel = new JLabel("Password: ");    //Create new password label
+        passText = new JPasswordField(20);   //Create new password field (and set length)
+        button = new JButton("Login");  //Create login button
+        success = new JLabel("");    //Create successful login label
 
 
         //Initial frame and panel setup
@@ -36,17 +46,27 @@ public class LoginGUI {
         panel.add(passText);    //Add password field to panel
 
         button.setBounds(10,80,80,25);  //Set padding of login button (pixel values)
+        button.addActionListener(new LoginGUI());   //Add Action listener to login button
         panel.add(button);  //Add button to panel
 
         //Post login actions setup
         success.setBounds(10,110,300,25);   //Set padding of success label (pixel values)
         panel.add(success); //Add label to panel
 
-
-
-
-
-
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String username = userText.getText();   //Let username string equal text entered by user
+        String password = passText.getText();   //Let password text equal text entered by user
+
+        //Compare username and password to predefined values, if matching. Login
+        if(username.equals("Bill") && password.equals("hello")){
+            success.setText("Login Successful!");
+        }
+        else{
+            success.setText("Incorrect username or password!");
+        }
+
+    }
 }

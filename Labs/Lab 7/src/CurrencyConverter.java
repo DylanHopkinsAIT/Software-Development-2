@@ -15,12 +15,12 @@ interface BaseCurrency {
 }
 
 public class CurrencyConverter implements BaseCurrency {
-    private double usd;
+    private double initialValue;
 
     //USD --> Euro Conversion
     @Override
     public double euroToUSD(double value) {
-        usd = value * 1.14762;
+        initialValue = value * 1.14762;
         return value;
     }
 
@@ -32,7 +32,7 @@ public class CurrencyConverter implements BaseCurrency {
     //USD --> Yuan Conversion
     @Override
     public void yuanToUSD(double value) {
-        usd = value * 6.35942;
+        initialValue = value * 6.35942;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CurrencyConverter implements BaseCurrency {
     //USD --> GBP Conversion
     @Override
     public void gbpToUSD(double value) {
-        usd = value * 1.37463;
+        initialValue = value * 1.37463;
     }
 
     @Override
@@ -56,19 +56,19 @@ public class CurrencyConverter implements BaseCurrency {
 
         //USD --> Euro Conversion
         cc.euroToUSD(5);
-        System.out.println("Value of 5 Euro to USD: " + cc.usd);
+        System.out.println("Value of 5 Euro to USD: " + cc.initialValue);
         System.out.println("Value of 5 USD to Euro: " + cc.usdToEuro(5));
         System.out.println();
 
         //USD --> GBP Conversion
         cc.gbpToUSD(5);
-        System.out.println("Value of 5 USD to GBP: " + cc.usd);
+        System.out.println("Value of 5 USD to GBP: " + cc.initialValue);
         System.out.println("Value of 5 GBP to USD: " + cc.usdToGBP(5));
         System.out.println();
 
         //USD --> Yuan Conversion
         cc.yuanToUSD(5);
-        System.out.println("Value of 5 USD to Yuan: " + cc.usd);
+        System.out.println("Value of 5 USD to Yuan: " + cc.initialValue);
         System.out.println("Value of 5 Yuan to USD: " + cc.usdToYuan(5));
         System.out.println();
 

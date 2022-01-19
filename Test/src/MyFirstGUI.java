@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI implements ActionListener {
+public class MyFirstGUI implements ActionListener {
 
     //Keep these variables outside GUI constructor so that they are in the scope of other methods
     private int count = 0;
@@ -12,7 +12,7 @@ public class GUI implements ActionListener {
     private JPanel panel;
 
     //GUI Constructor
-    public GUI() {
+    public MyFirstGUI() {
 
         frame = new JFrame(); //Create new frame
         panel = new JPanel(); //Create new panel
@@ -35,7 +35,7 @@ public class GUI implements ActionListener {
 
     public static void main(String[] args) {
 
-        new GUI(); //Construct new GUI using GUI Constructor
+        new MyFirstGUI(); //Construct new GUI using GUI Constructor
 
     }
 
