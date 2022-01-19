@@ -1,6 +1,6 @@
 interface BaseCurrency {
 
-    void euroToUSD(double value);
+    double euroToUSD(double value);
 
     double usdToEuro(double value);
 
@@ -19,8 +19,9 @@ public class CurrencyConverter implements BaseCurrency {
 
     //USD --> Euro Conversion
     @Override
-    public void euroToUSD(double value) {
+    public double euroToUSD(double value) {
         usd = value * 1.14762;
+        return value;
     }
 
     @Override
