@@ -1,77 +1,96 @@
 interface BaseCurrency {
 
-    double euroToUSD(double value);
+    double getUSD();
+    void setUSD(double value);
 
-    double usdToEuro(double value);
-
-    void yuanToUSD(double value);
-
-    double usdToYuan(double value);
+    void euroToUSD(double value);
+    double usdToEuro();
 
     void gbpToUSD(double value);
+    double usdToGBP();
 
-    double usdToGBP(double value);
+    void rmbToUSD(double value);
+    double usdToRMB();
 
 }
 
 public class CurrencyConverter implements BaseCurrency {
-    private double initialValue;
+    private double usd = 0.0;
 
-    //USD --> Euro Conversion
     @Override
-    public double euroToUSD(double value) {
-        initialValue = value * 1.14762;
-        return value;
+    public double getUSD() {
+        return usd;
     }
 
     @Override
-    public double usdToEuro(double value) {
-        return value / 1.14762;
-    }
-
-    //USD --> Yuan Conversion
-    @Override
-    public void yuanToUSD(double value) {
-        initialValue = value * 6.35942;
+    public void setUSD(double value) {
+        usd = value;
     }
 
     @Override
-    public double usdToYuan(double value) {
-        return value / 6.35942;
+    public void euroToUSD(double value) {
+        usd = value * 1.14;
     }
 
-    //USD --> GBP Conversion
+    @Override
+    public double usdToEuro() {
+        return usd / 1.14;
+    }
+
+
     @Override
     public void gbpToUSD(double value) {
-        initialValue = value * 1.37463;
+        usd = value / 0.74;
     }
 
     @Override
-    public double usdToGBP(double value) {
-        return value / 1.37463;
+    public double usdToGBP()  {return usd * 0.74; }
+
+
+    @Override
+    public void rmbToUSD(double value) {
+        usd = value / 6.32;
     }
+
+    @Override
+    public double usdToRMB() {
+        return usd * 6.32;
+
+}
 
     public static void main(String[] args) {
         CurrencyConverter cc = new CurrencyConverter();
 
-        //USD --> Euro Conversion
+        //USD --> Others Conversion
+        cc.setUSD(5);
+        System.out.println("Value of 5 USD to EUR: " + cc.usdToEuro());
+        System.out.println("Value of 5 USD to GBP: " + cc.usdToGBP());
+        System.out.println("Value of 5 USD to RMB: " + cc.usdToRMB());
+        System.out.println();
+
+        //EUR --> Other Conversion
         cc.euroToUSD(5);
-        System.out.println("Value of 5 Euro to USD: " + cc.initialValue);
-        System.out.println("Value of 5 USD to Euro: " + cc.usdToEuro(5));
+        System.out.println("Value of 5 EUR to USD: " + cc.getUSD());
+        System.out.println("Value of 5 EUR to GBP: " + cc.usdToGBP());
+        System.out.println("Value of 5 EUR to RMB: " + cc.usdToRMB());
         System.out.println();
 
-        //USD --> GBP Conversion
+        //GBP --> Other Conversion
         cc.gbpToUSD(5);
-        System.out.println("Value of 5 USD to GBP: " + cc.initialValue);
-        System.out.println("Value of 5 GBP to USD: " + cc.usdToGBP(5));
+        System.out.println("Value of 5 GBP to USD: " + cc.getUSD());
+        System.out.println("Value of 5 GBP to EUR: " + cc.usdToEuro());
+        System.out.println("Value of 5 GBP to RMB: " +cc.usdToRMB());
         System.out.println();
 
-        //USD --> Yuan Conversion
-        cc.yuanToUSD(5);
-        System.out.println("Value of 5 USD to Yuan: " + cc.initialValue);
-        System.out.println("Value of 5 Yuan to USD: " + cc.usdToYuan(5));
+        //RMB --> Other Conversion
+        cc.rmbToUSD(5);
+        System.out.println("Value of 5 RMB to USD: " + cc.getUSD());
+        System.out.println("Value of 5 RMB to EUR: " + cc.usdToEuro());
+        System.out.println("Value of 5 RMB to GBP: " +cc.usdToGBP());
         System.out.println();
 
     }
+
 }
+
 

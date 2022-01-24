@@ -1,76 +1,127 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CurrencyConverterGUI {
 
-    //Initialize these variables in the scope of the other methods
-    private JFrame frame;
-    private JPanel panel;
-    private JLabel initialValueLabel;
-    private JTextField initialValueField;
-    private JLabel fromCurrencyLabel;
-    private JComboBox fromCurrencyList;
-    private JLabel toCurrencyLabel;
-    private JComboBox toCurrencyList;
-    private JTextArea finalValue;
-    private JButton clearFields;
-    private JButton calculateConversion;
+    public CurrencyConverterGUI() {
+        String[] currencies = new String[]{"US Dollars (USD)", "Pounds Sterling (GBP)", "Euro (EUR)", "Chinese Yuan (RMB)"};
+        CurrencyConverter cc = new CurrencyConverter();
 
-    public CurrencyConverterGUI(){
-        String[] currencies = new String[]{"US Dollars (USD)", "Pounds Sterling (GBP)", "Euro (EUR)","Chinese Yuan (RMB)"};
-
-        frame = new JFrame();   //new frame
-        panel = new JPanel();   //new panel
-        initialValueLabel = new JLabel("Amount to convert: ");   //initial value label
-        initialValueField = new JTextField();   //initial value text field
-        fromCurrencyLabel = new JLabel("Convert From: ");   //from currency label
-        fromCurrencyList = new JComboBox(currencies); //select currency drop down
-        toCurrencyLabel = new JLabel("Convert To: ");   //to currency label
-        toCurrencyList = new JComboBox(currencies);   //select currency drop down
-        finalValue = new JTextArea(""); //text area to contain final converted value
-        clearFields = new JButton("Clear"); //button to clear all fields
-        calculateConversion = new JButton("Calculate");//button to calculate conversion
+        JFrame frame = new JFrame();   //new frame
+        JPanel panel = new JPanel();   //new panel
+        JLabel usdLabel = new JLabel(currencies[0]);   //USD value label
+        JLabel eurLabel = new JLabel(currencies[2]);   //EUR value label
+        JLabel gbpLabel = new JLabel(currencies[1]);   //GBP value label
+        JLabel rmbLabel = new JLabel(currencies[3]);   //RMB value label
+        JTextField usdField = new JTextField();   //USD value text field
+        JTextField eurField = new JTextField();   //EUR value text field
+        JTextField gbpField = new JTextField();   //GBP value text field
+        JTextField rmbField = new JTextField();   //RBM value text field
 
         //Initial frame and panel setup
-        frame.setSize(800,600); //Set default size (pixel values)
+        frame.setSize(400, 400); //Set default size (pixel values)
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //What to do when user closes panel
-        frame.add(panel);
+        frame.add(panel);   //Add panel to frame
         frame.setVisible(true); //Make panel visible
-        frame.setTitle("Currency Conversion");
+        frame.setTitle("Currency Conversion");  //Give panel a title
         panel.setLayout(null);  //No value for now
 
-        //Initial value box
-        initialValueLabel.setBounds(335,20,150,25);
-        initialValueField.setBounds(315,40,150,25);
-        panel.add(initialValueLabel);
-        panel.add(initialValueField);
+        //USD Box
+        usdLabel.setBounds(125, 20, 140, 25);  //USD Label pixel values
+        usdField.setBounds(125, 40, 140, 25);  //USD field pixel values
+        usdField.addActionListener(new ActionListener() {
+            //Currency conversions to display on UI
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double val = Double.parseDouble(usdField.getText());
+                cc.setUSD(val);
 
-        //From currency dropdown
-        fromCurrencyLabel.setBounds(115, 100,100,25);
-        fromCurrencyList.setBounds(250,100,300,25);
-        panel.add(fromCurrencyLabel);
-        panel.add(fromCurrencyList);
+                //Euro conversion
+                eurField.setText(String.valueOf(cc.usdToEuro()));
 
-        //To currency dropdown
-        toCurrencyLabel.setBounds(115, 160,100,25);
-        toCurrencyList.setBounds(250,160,300,25);
-        panel.add(toCurrencyLabel);
-        panel.add(toCurrencyList);
+                //GBP Conversion
+                gbpField.setText(String.valueOf(cc.usdToGBP()));
 
-        //Clear & calculate fields buttons
-        clearFields.setBounds(250, 220, 100,25);
-        calculateConversion.setBounds(450, 220, 100,25);
-        panel.add(clearFields);
-        panel.add(calculateConversion);
+                //RMB Conversion
+                rmbField.setText(String.valueOf(cc.usdToRMB()));
+            }
+        });
+        panel.add(usdLabel);    //Add label for USD field
+        panel.add(usdField);    //Add USD field
 
-        //Final value text box
-        finalValue.setBounds(250, 320,300, 100);
-        panel.add(finalValue);
+        //EUR Box
+        eurLabel.setBounds(125, 80, 140, 25);
+        eurField.setBounds(125, 100, 140, 25);
+        eurField.addActionListener(new ActionListener() {
+            //Currency conversions to display on UI
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double val = Double.parseDouble(eurField.getText());
+                cc.euroToUSD(val);
 
+                //USD conversion
+                usdField.setText(String.valueOf(cc.getUSD()));
+
+                //GBP Conversion
+                gbpField.setText(String.valueOf(cc.usdToGBP()));
+
+                //RMB Conversion
+                rmbField.setText(String.valueOf(cc.usdToRMB()));
+            }
+        });
+        panel.add(eurLabel);    //Add euro label for euro field
+        panel.add(eurField);    //Add euro field to panel
+
+        //GBP Box
+        gbpLabel.setBounds(125, 140, 140, 25);
+        gbpField.setBounds(125, 160, 140, 25);
+        gbpField.addActionListener(new ActionListener() {
+            //Currency conversions to display on UI
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double val = Double.parseDouble(gbpField.getText());
+                cc.gbpToUSD(val);
+
+                //USD conversion
+                usdField.setText(String.valueOf(cc.getUSD()));
+
+                //EUR Conversion
+                eurField.setText(String.valueOf(cc.usdToEuro()));
+
+                //RMB Conversion
+                rmbField.setText(String.valueOf(cc.usdToRMB()));
+            }
+        });
+        panel.add(gbpLabel);    //add label for GBP field
+        panel.add(gbpField);    //add GBP field to panel
+
+        //RMB Box
+        rmbLabel.setBounds(125, 200, 140, 25);
+        rmbField.setBounds(125, 220, 140, 25);
+        rmbField.addActionListener(new ActionListener() {
+            //Currency conversions to display on UI
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double val = Double.parseDouble(rmbField.getText());
+                cc.rmbToUSD(val);
+
+                //Euro conversion
+                eurField.setText(String.valueOf(cc.usdToEuro()));
+
+                //GBP Conversion
+                gbpField.setText(String.valueOf(cc.usdToGBP()));
+
+                //USD Conversion
+                usdField.setText(String.valueOf(cc.getUSD()));
+            }
+        });
+        panel.add(rmbLabel);    //Add label for RMB field
+        panel.add(rmbField);    // Add RMB field
     }
 
     public static void main(String[] args) {
         new CurrencyConverterGUI();
     }
-
 }
 
