@@ -1,15 +1,19 @@
 interface BaseCurrency {
 
     double getUSD();
+
     void setUSD(double value);
 
     void euroToUSD(double value);
+
     double usdToEuro();
 
     void gbpToUSD(double value);
+
     double usdToGBP();
 
     void rmbToUSD(double value);
+
     double usdToRMB();
 
 }
@@ -44,7 +48,9 @@ public class CurrencyConverter implements BaseCurrency {
     }
 
     @Override
-    public double usdToGBP()  {return usd * 0.74; }
+    public double usdToGBP() {
+        return usd * 0.74;
+    }
 
 
     @Override
@@ -56,7 +62,7 @@ public class CurrencyConverter implements BaseCurrency {
     public double usdToRMB() {
         return usd * 6.32;
 
-}
+    }
 
     public static void main(String[] args) {
         CurrencyConverter cc = new CurrencyConverter();
@@ -79,14 +85,14 @@ public class CurrencyConverter implements BaseCurrency {
         cc.gbpToUSD(5);
         System.out.println("Value of 5 GBP to USD: " + cc.getUSD());
         System.out.println("Value of 5 GBP to EUR: " + cc.usdToEuro());
-        System.out.println("Value of 5 GBP to RMB: " +cc.usdToRMB());
+        System.out.println("Value of 5 GBP to RMB: " + cc.usdToRMB());
         System.out.println();
 
         //RMB --> Other Conversion
         cc.rmbToUSD(5);
         System.out.println("Value of 5 RMB to USD: " + cc.getUSD());
         System.out.println("Value of 5 RMB to EUR: " + cc.usdToEuro());
-        System.out.println("Value of 5 RMB to GBP: " +cc.usdToGBP());
+        System.out.println("Value of 5 RMB to GBP: " + cc.usdToGBP());
         System.out.println();
 
     }
