@@ -2,105 +2,92 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 public class DropRandomShapes extends JFrame {
 
-    private CanvasPanel canvas = new CanvasPanel();
+    private final CanvasPanel canvas = new CanvasPanel();
 
     public DropRandomShapes()
     {
         this.setSize(400, 400);
-
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
     }
 
     public void init()
     {
         this.add(canvas);
+        canvas.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.setVisible(true);
     }
 
-    class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener
+    class CanvasPanel extends JPanel implements MouseListener
     {
-        private Rectangle2D rect = new Rectangle2D.Double(100,100,50,50);
+        //private final Rectangle2D rectangle = new Rectangle2D.Double(100,100,50,50);
+        //private final Rectangle2D square = new Rectangle2D.Double(100,100,100,100);
+        //private final Ellipse2D circle = new Ellipse2D.Double(100,100,50,50);
+        //private final Ellipse2D ellipse = new Ellipse2D.Double(100,100,50,25);
 
-        private boolean pressed = false;
+        private int ranColorNum, ranShapeNum;
 
-        private Color [] colors = {Color.BLUE, Color.RED, Color.GREEN};
+        private final Color [] colors = {Color.BLUE, Color.RED, Color.GREEN};
+        Random random = new Random();
 
-        private int colorTracker = 0;
+
 
         public CanvasPanel(){
             this.addMouseListener(this);
-            this.addMouseMotionListener(this);
         }
 
         @Override
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-
-            Graphics2D g2d = (Graphics2D) g;
-
-            g2d.setColor(colors[colorTracker]);
-
-            g2d.fill(rect);
-
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if(rect.contains(e.getPoint())) {
-                colorTracker = (colorTracker + 1) % colors.length;
-                repaint();
+        public void paintComponent(Graphics g) {
+            switch (ranShapeNum){
+                case 0:
+                    g.setColor(colors[ranColorNum]);
+                    g.fillRect(100,100,50,50);
+                    g.drawRect(100,100,50,50);
+                    break;
+                case 1:
+                    g.setColor(colors[ranColorNum]);
+                    g.fillRect(100,100,100,100);
+                    g.drawRect(100,100,100,100);
+                    break;
+                case 2:
+                    g.setColor(colors[ranColorNum]);
+                    g.fillOval(100,100,50,50);
+                    g.drawOval(100,100,50,50);
+                    break;
+                default:
+                    g.setColor(colors[ranColorNum]);
+                    g.fillOval(100,100,50,25);
+                    g.drawOval(100,100,50,25);
+                    break;
             }
         }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {}
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if(rect.contains(e.getPoint()))
-            {
-                //System.out.println("Square is pressed");
-                pressed = true;
-            }
+            ranColorNum = random.nextInt(3);
+            ranShapeNum = random.nextInt(4);
+
+            System.out.println(ranColorNum);
+            System.out.println(ranShapeNum);
+
+            repaint();
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
-            pressed = false;
-        }
+        public void mouseReleased(MouseEvent e) {}
 
         @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
+        public void mouseEntered(MouseEvent e) {}
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(MouseEvent e) {}
 
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if(pressed) {
-                double w = rect.getWidth();
-                double h = rect.getHeight();
-                double x = e.getX() - (w / 2);
-                double y = e.getY() - (h / 2);
-
-                rect = new Rectangle2D.Double(x, y, w, h);
-
-                repaint();
-            }
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-        }
     }
 
     public static void main(String[] args) {
